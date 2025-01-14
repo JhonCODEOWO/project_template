@@ -1,0 +1,16 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306" # Puerto de MySQL mapeado al host
+    environment:
+      MYSQL_DATABASE: 'testing'       # Base de datos inicial
+      MYSQL_USER: 'jonathan'          # Usuario de la base de datos
+      MYSQL_PASSWORD: '07092002fake'  # Contraseña del usuario
+      MYSQL_ROOT_PASSWORD: '07092002fake' # Contraseña de root
+    container_name: testing-template
+    volumes:
+      - ./mysql:/var/lib/mysql # Mapeo para persistencia
