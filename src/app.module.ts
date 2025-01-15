@@ -14,14 +14,11 @@ import { ConfigModule } from '@nestjs/config';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
+      autoLoadEntities: true,
       synchronize: true,
     }),
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule {
-  constructor() {
-    console.log(process.env);
-  }
-}
+export class AppModule {}
