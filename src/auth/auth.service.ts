@@ -97,6 +97,9 @@ export class AuthService {
 
   handleError(error: any) {
     //TODO: DEPENDIENDO DEL CONTROLADOR DE BASE DE DATOS QUE USES CONFIGURA LOS MANEJOS DE ERRORES AQUÍ
+    if (error.code === 'ER_DUP_ENTRY') {
+      throw new BadRequestException(`${error.sqlMessage}`);
+    }
     console.log(error);
     throw new InternalServerErrorException(
       `An unexpected error just jump into auth.service.js`,
