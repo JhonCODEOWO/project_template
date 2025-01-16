@@ -29,8 +29,21 @@ export class User {
     type: 'varchar',
     length: 254,
     nullable: false,
+    unique: true,
   })
   email: string;
+
+  @Column({
+    type: 'text',
+    nullable: false,
+  })
+  password: string;
+
+  @Column({
+    type: 'boolean',
+    default: 1,
+  })
+  active: boolean;
 
   @CreateDateColumn()
   createdAt: string;
