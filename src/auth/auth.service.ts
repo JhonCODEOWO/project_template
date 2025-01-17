@@ -11,13 +11,45 @@ import { User } from './entities/users.entity';
 import { Repository } from 'typeorm';
 
 import * as bcryp from 'bcrypt';
+import { LoginUserDto } from './dto/login-user.dto';
+import { JwtService } from '@nestjs/jwt';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private jwtService: JwtService,
   ) {}
+
+  async login(loginUserDto: LoginUserDto) {
+    const user = await this.userRepository.findOne({
+      where: {
+        email: loginUserDto.email,
+      },
+      select: {
+        id: true,
+        email: true,
+        password: true,
+        name: true,
+        lastName: true,
+      },
+    });
+
+    if (!user)
+      throw new BadRequestException(`The user doesn't exist, try again`);
+
+    //Comparar contraseña recibida por el body con la del registro
+    if (!bcryp.compareSync(loginUserDto.password, user.password))
+      throw new BadRequestException(`The password does't match, try again`);
+    delete user.password;
+
+    return {
+      ...user,
+      token: this.generateToken({ id: user.id }),
+    };
+  }
 
   async create(createUserDto: CreateUserDto) {
     try {
@@ -61,6 +93,11 @@ export class AuthService {
     } catch (error) {
       this.handleError(error);
     }
+  }
+
+  generateToken(payload: JwtPayload): string {
+    const token = this.jwtService.sign(payload);
+    return token;
   }
 
   //Disable one user if is active otterwhise it active it again

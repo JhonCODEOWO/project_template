@@ -11,6 +11,7 @@ import {
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -47,5 +48,10 @@ export class AuthController {
   @Patch('enable/:id')
   enableUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.authService.enableUser(id);
+  }
+
+  @Post('login')
+  login(@Body() loginUser: LoginUserDto) {
+    return this.authService.login(loginUser);
   }
 }
