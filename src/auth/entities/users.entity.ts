@@ -1,7 +1,9 @@
+import { Role } from 'src/roles/entities/role.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -45,6 +47,9 @@ export class User {
     default: 1,
   })
   active: boolean;
+
+  @ManyToMany(() => Role)
+  roles: Role[];
 
   @CreateDateColumn()
   createdAt: string;
