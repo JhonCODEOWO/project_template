@@ -18,7 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     //Aplicar valores a el constructor principal
     super({
-      secretOrKey: configService.get('SECRET_WORD'),
+      secretOrKey: configService.getOrThrow('SECRET_WORD'),
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }

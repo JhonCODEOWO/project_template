@@ -13,6 +13,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   providers: [AuthService, JwtStrategy],
   imports: [
     ConfigModule,
+
     TypeOrmModule.forFeature([User]),
 
     PassportModule.register({ defaultStrategy: 'jwt' }),
@@ -24,7 +25,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
         return {
           secret: configService.getOrThrow('SECRET_WORD'), //Palabra secreta para la generación de JWT
           signOptions: {
-            expiresIn: '8', //Tiempo de expiración
+            expiresIn: '8h', //Tiempo de expiración
           },
         };
       },
