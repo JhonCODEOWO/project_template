@@ -10,7 +10,7 @@ export interface seedPermission {
 
 export interface seedUser {
   name: string;
-  lastname: string;
+  lastName: string;
   email: string;
   password: string;
 }

@@ -31,8 +31,8 @@ export const dataToSeed: seed = {
   users: [
     {
       name: 'Administrador',
-      lastname: 'Sin apellidos',
-      email: 'Prueba@prueba.com',
+      lastName: 'Sin apellidos',
+      email: 'prueba@prueba.com',
       password: bcrypt.hashSync('admin', 10),
     },
   ],

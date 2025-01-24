@@ -64,7 +64,7 @@ export class SeedService {
       await this.insertUsers(data.users);
 
       //Asignar roles a usuarios por defecto.
-      const userDefault = await this.getUser('jjv20618@gmail.com');
+      const userDefault = await this.getUser('prueba@prueba.com');
 
       //Asignar roles al usuario
       userDefault.roles = [await this.getRole('admin')];
@@ -72,9 +72,10 @@ export class SeedService {
 
       return 'Hecho';
     } catch (error) {
+      await this.emptyAll();
       console.log(error);
       throw new InternalServerErrorException(
-        `Ha ocurrido un error al ejecutar todo el seed`,
+        `Ha ocurrido un error al ejecutar todo el seed, check logs`,
       );
     }
   }
@@ -82,6 +83,7 @@ export class SeedService {
   async emptyAll() {
     await this.permissionRepository.delete({});
     await this.roleRepository.delete({});
+    await this.userRepository.delete({});
   }
 
   //Inserta los permisos dados a un role mediante su nombre
