@@ -44,6 +44,7 @@ export class AuthService {
     if (!bcryp.compareSync(loginUserDto.password, user.password))
       throw new BadRequestException(`The password does't match, try again`);
     delete user.password;
+    delete user.roles;
 
     return {
       ...user,

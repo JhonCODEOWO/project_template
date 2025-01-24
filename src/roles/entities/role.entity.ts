@@ -17,6 +17,7 @@ export class Role {
     type: 'varchar',
     length: '20',
     nullable: false,
+    unique: true,
   })
   name: string;
 
@@ -26,10 +27,10 @@ export class Role {
   })
   description: string;
 
-  @ManyToMany(() => Permissions)
+  @ManyToMany(() => Permissions, (permissions) => permissions.roles)
   permisssions: Permissions[];
 
-  @ManyToMany(() => User)
+  @ManyToMany(() => User, (user) => user.roles)
   @JoinTable()
   users: User[];
 }

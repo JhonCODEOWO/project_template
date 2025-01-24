@@ -1,11 +1,22 @@
 export interface seedRole {
-  id: string;
   name: string;
   description: string;
 }
 
 export interface seedPermission {
-  id: string;
   name: string;
   description: string;
+}
+
+export interface seedUser {
+  name: string;
+  lastname: string;
+  email: string;
+  password: string;
+}
+
+export interface seed {
+  permissions: seedPermission[];
+  roles: seedRole[];
+  users: seedUser[];
 }

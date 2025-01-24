@@ -16,6 +16,7 @@ export class Permissions {
     type: 'varchar',
     length: '15',
     nullable: false,
+    unique: true,
   })
   name: string;
 
@@ -23,9 +24,9 @@ export class Permissions {
     type: 'text',
     nullable: false,
   })
-  details: string;
+  description: string;
 
-  @ManyToMany(() => Role)
+  @ManyToMany(() => Role, (role) => role.permisssions)
   @JoinTable()
   roles: Role[];
 }

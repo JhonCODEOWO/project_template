@@ -48,7 +48,9 @@ export class User {
   })
   active: boolean;
 
-  @ManyToMany(() => Role)
+  @ManyToMany(() => Role, (role) => role.users, {
+    eager: true,
+  })
   roles: Role[];
 
   @CreateDateColumn()
