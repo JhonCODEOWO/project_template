@@ -22,6 +22,7 @@ Plantilla de NestJs que incluye ya configuradas las funcionalidades principales 
 5. Ahora deberías poder utilizar los endpoints de la plantilla.
 6. Prueba utilizando la ruta `api/seed` esto generará los permisosos (Por defecto 3: create, update y delete), crerá un rol llamado admin con todos los permisos y un usuario el cuál tendrá el rol de admin.
 7. Si esa ruta se ejecutó correctamente y sin ningún error, ya tienes listo tu plantilla para iniciar a readaptarla para tus necesidades.
+8. Lee la documentación de los endpoints accediendo a la ruta `http://localhost:3000/api`
 
 ## Notas
 Si deseas utilizar otro tipo de base de datos debes instalar igualmente el paquete que permite a TypeOrm utilizarlo, así como verificar que las credenciales esten correctamente colocadas para esa base de datos además de editar los decoradores de las entidades por los tipos que sean compatibles con ella.

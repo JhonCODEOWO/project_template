@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Role } from 'src/roles/entities/role.entity';
 import {
   Column,
@@ -10,9 +11,11 @@ import {
 
 @Entity()
 export class User {
+  @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @ApiProperty()
   @Column({
     type: 'varchar',
     length: 20,
@@ -20,6 +23,7 @@ export class User {
   })
   name: string;
 
+  @ApiProperty()
   @Column({
     type: 'varchar',
     length: 30,
@@ -27,6 +31,7 @@ export class User {
   })
   lastName: string;
 
+  @ApiProperty()
   @Column({
     type: 'varchar',
     length: 254,
@@ -35,6 +40,7 @@ export class User {
   })
   email: string;
 
+  @ApiProperty()
   @Column({
     type: 'text',
     nullable: false,
@@ -42,20 +48,24 @@ export class User {
   })
   password: string;
 
+  @ApiProperty()
   @Column({
     type: 'boolean',
     default: 1,
   })
   active: boolean;
 
+  @ApiProperty()
   @ManyToMany(() => Role, (role) => role.users, {
     eager: true,
   })
   roles: Role[];
 
+  @ApiProperty()
   @CreateDateColumn()
   createdAt: string;
 
+  @ApiProperty()
   @UpdateDateColumn()
   updatedAt: string;
 }

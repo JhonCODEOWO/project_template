@@ -33,7 +33,7 @@ export const dataToSeed: seed = {
       name: 'Administrador',
       lastName: 'Sin apellidos',
       email: 'prueba@prueba.com',
-      password: bcrypt.hashSync('admin', 10),
+      password: bcrypt.hashSync('admin12345678', 10),
     },
   ],
 };

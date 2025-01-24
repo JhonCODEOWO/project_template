@@ -14,28 +14,49 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { User } from './entities/users.entity';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
+  @Post('create')
+  @ApiResponse({
+    status: 201,
+    description: 'Resource created correctly',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'The user dont have access to this route',
+  })
   @UseGuards(AuthGuard())
   create(@Body() createAuthDto: CreateUserDto) {
     return this.authService.create(createAuthDto);
   }
 
-  @Get()
+  @Get('users')
+  @ApiResponse({
+    status: 200,
+    description: 'All of the users registered obtained by pages',
+    type: User,
+    isArray: true,
+  })
   findAll() {
     return this.authService.findAll();
   }
 
   @Get(':id')
+  @ApiParam({ name: 'id', description: 'UUI of the user to get' })
+  @ApiResponse({ status: 200, type: User, description: 'The user finded' })
+  @ApiResponse({ status: 404, description: 'The user doesnt exists' })
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.authService.findOne(id);
   }
 
   @Patch(':id')
+  @ApiParam({ name: 'id', description: 'The uuid of the user' })
+  @ApiBody({ type: UpdateUserDto })
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateAuthDto: UpdateUserDto,
@@ -44,16 +65,34 @@ export class AuthController {
   }
 
   @Delete('disable/:id')
+  @ApiParam({ name: 'id', description: 'The uuid of the user', type: 'number' })
+  @ApiResponse({ status: 200, description: 'The user is now inactive' })
+  @ApiResponse({ status: 404, description: 'The user dont exists' })
+  @ApiResponse({ status: 400, description: 'The user is disabled yet' })
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.authService.disableUser(id);
   }
 
+  @ApiParam({ name: 'id', description: 'The uuid of the user', type: 'number' })
+  @ApiResponse({ status: 200, description: 'The user is now active' })
+  @ApiResponse({ status: 404, description: 'The user dont exists' })
+  @ApiResponse({ status: 400, description: 'The user is enabled yet' })
   @Patch('enable/:id')
   enableUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.authService.enableUser(id);
   }
 
   @Post('login')
+  @ApiBody({ type: LoginUserDto })
+  @ApiResponse({
+    status: 201,
+    description: 'User with JWT',
+    type: User,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'User or password doesnt match with any record',
+  })
   login(@Body() loginUser: LoginUserDto) {
     return this.authService.login(loginUser);
   }
