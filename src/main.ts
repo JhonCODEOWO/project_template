@@ -12,8 +12,15 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
+      transform: true, //Habilitamos las transformaciones
+      //Colocamos las optiones de transformación
+      transformOptions: {
+        enableImplicitConversion: true, //Se transformarán todos los datos hacia las reglas de los DTO
+      },
     }),
   );
+
+  app.enableCors();
 
   const config = new DocumentBuilder()
     .setTitle('Plantilla NestJs')

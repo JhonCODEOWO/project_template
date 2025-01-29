@@ -14,6 +14,8 @@ import * as bcryp from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +23,7 @@ export class AuthService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
     private jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async login(loginUserDto: LoginUserDto) {
@@ -69,8 +72,15 @@ export class AuthService {
     }
   }
 
-  findAll() {
-    return `This action returns all auth`;
+  async findAll(pagination: PaginationDto) {
+    //Aplicar limit por defecto y offset desde env
+    const {
+      limit = this.configService.getOrThrow('limit'),
+      offset = this.configService.getOrThrow('offset'),
+    } = pagination;
+    //Obtener registros con paginación.
+    const users = await this.userRepository.find({ skip: offset, take: limit });
+    return users;
   }
 
   async findOne(id: string) {

@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { RolesModule } from './roles/roles.module';
 import { SeedModule } from './seed/seed.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { SeedModule } from './seed/seed.module';
     }),
     RolesModule,
     SeedModule,
+    CommonModule,
   ],
   controllers: [],
   providers: [],

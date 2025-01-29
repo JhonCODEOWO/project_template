@@ -8,6 +8,7 @@ import {
   Delete,
   ParseUUIDPipe,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -16,6 +17,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { User } from './entities/users.entity';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -42,8 +44,8 @@ export class AuthController {
     type: User,
     isArray: true,
   })
-  findAll() {
-    return this.authService.findAll();
+  findAll(@Query() parameters: PaginationDto) {
+    return this.authService.findAll(parameters);
   }
 
   @Get(':id')
