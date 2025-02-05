@@ -30,7 +30,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     //Obtener usuario en base a el id en el payload.
     const user = await this.userRepository.findOneBy({ id });
 
-    if (!user) throw new UnauthorizedException('Token no valid');
+    if (!user)
+      throw new UnauthorizedException('User dont exists in the database');
 
     if (!user.active)
       throw new UnauthorizedException('User is inactive, talk with admin');

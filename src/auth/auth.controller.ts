@@ -7,17 +7,17 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
-  UseGuards,
   Query,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { User } from './entities/users.entity';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { ValidRoles } from 'src/common/enums/role.enum';
+import { Auth } from './decorators/role-protected/auth.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -32,7 +32,7 @@ export class AuthController {
     status: 401,
     description: 'The user dont have access to this route',
   })
-  @UseGuards(AuthGuard())
+  @Auth(ValidRoles.admin)
   create(@Body() createAuthDto: CreateUserDto) {
     return this.authService.create(createAuthDto);
   }
@@ -59,6 +59,7 @@ export class AuthController {
   @Patch(':id')
   @ApiParam({ name: 'id', description: 'The uuid of the user' })
   @ApiBody({ type: UpdateUserDto })
+  @Auth(ValidRoles.admin)
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateAuthDto: UpdateUserDto,

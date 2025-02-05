@@ -16,6 +16,7 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ConfigService } from '@nestjs/config';
+import { GetResponse } from 'src/common/interfaces/get-all.interface';
 
 @Injectable()
 export class AuthService {
@@ -72,15 +73,22 @@ export class AuthService {
     }
   }
 
-  async findAll(pagination: PaginationDto) {
-    //Aplicar limit por defecto y offset desde env
+  async findAll(pagination: PaginationDto): Promise<GetResponse> {
+    //Aplicar limit por defecto y offset desde env si no vienen en la petición
     const {
       limit = this.configService.getOrThrow('limit'),
       offset = this.configService.getOrThrow('offset'),
     } = pagination;
     //Obtener registros con paginación.
     const users = await this.userRepository.find({ skip: offset, take: limit });
-    return users;
+    const elements = await this.userRepository.count();
+
+    return {
+      data: users,
+      items: elements,
+      limit,
+      offset,
+    };
   }
 
   async findOne(id: string) {
