@@ -26,7 +26,9 @@ export class Permissions {
   })
   description: string;
 
-  @ManyToMany(() => Role, (role) => role.permisssions)
+  @ManyToMany(() => Role, (role) => role.permisssions, {
+    eager: true,
+  })
   @JoinTable()
   roles: Role[];
 }

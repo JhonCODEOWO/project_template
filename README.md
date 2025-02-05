@@ -8,9 +8,13 @@
 # Template NestJs Project
 Plantilla de NestJs que incluye ya configuradas las funcionalidades principales y algunos ajustes generales:
 
-- **Usuarios**: Contiene la configuración de entidades y endpoints para manipular a una entidad Usuario, con datos predefinidos que puedes editar para tus soluciones.
+- **Usuarios**: Contiene la configuración de entidades y endpoints para manipular a una entidad Usuario, con datos predefinidos que puedes editar para tus soluciones. Además de contener un decorador @GetUser() que te va a permitir obtener datos de usuarios logeados a través de las peticiones.
 
 - **Autorización**: Incluye toda la configuración (Estrategia, registro de Jwt en el módulo y Passport) e instalación de paquetes para manejar el inicio de sesión de los usuarios mediante **bearer token** y un cierre de sesión de 8h, así como la regeneración de un token nuevo para extender sesiones.
+
+- **Administración**: Incluye todas las configuraciones para que con el decorador @Auth() puedas colocar en el rol que un usuario necesita para poder acceder a los endpoints, verificando que el usuario este logeado, esté presente en las peticiones y además cumpla con el rol requerido.
+
+- **Control de acciones**: Incluye un decorador @CheckPermission() el cual va a verificar que un usuario en una petición el cual esté previamente logeado contenga algún permiso específicado, usalo para tener un mejor manejo de quien va a poder realizar acciones y quien no. (La funcionalidad completa ya queda libre para tu desarrollo: Deshabilitar permisos de roles a ciertos usuarios por ej.)
 
 - **Dockerización**: Incluye un archivo docker-compose para lanzar una imagen de mysql y tener inmediatamente una base de datos lista para usar.
 

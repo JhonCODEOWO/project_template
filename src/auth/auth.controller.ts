@@ -18,6 +18,8 @@ import { User } from './entities/users.entity';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ValidRoles } from 'src/common/enums/role.enum';
 import { Auth } from './decorators/role-protected/auth.decorator';
+import { ValidPermissions } from 'src/common/enums/permission.enum';
+import { CheckPermission } from './decorators/permission-protected/check-permission.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -32,6 +34,8 @@ export class AuthController {
     status: 401,
     description: 'The user dont have access to this route',
   })
+  //El usuario debe estar logeado, ser admin y además tener el permiso create
+  @CheckPermission(ValidPermissions.create)
   @Auth(ValidRoles.admin)
   create(@Body() createAuthDto: CreateUserDto) {
     return this.authService.create(createAuthDto);
@@ -72,6 +76,8 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'The user is now inactive' })
   @ApiResponse({ status: 404, description: 'The user dont exists' })
   @ApiResponse({ status: 400, description: 'The user is disabled yet' })
+  @CheckPermission(ValidPermissions.delete)
+  @Auth(ValidRoles.admin)
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.authService.disableUser(id);
   }
